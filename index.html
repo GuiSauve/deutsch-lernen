@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutsch Lernen</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --nom:    #2563eb;
+            --akk:    #dc2626;
+            --dat:    #16a34a;
+            --gen:    #9333ea;
+            --bg:     #f1f5f9;
+            --surface:#ffffff;
+            --border: #e2e8f0;
+            --text:   #0f172a;
+            --muted:  #64748b;
+            --navy:   #1e3a5f;
+            --accent: #2563eb;
+            --french: #d97706;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ── */
+        .app-header {
+            background: var(--navy);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 3px solid var(--accent);
+            flex-shrink: 0;
+        }
+        .app-header h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
+        .topic-pill {
+            margin-left: auto;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* ── Layout ── */
+        .app-body { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 51px); }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 210px;
+            background: var(--navy);
+            flex-shrink: 0;
+            padding: 1.25rem 0;
+            overflow-y: auto;
+        }
+        .sidebar-label {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #475569;
+            padding: 0 1.25rem;
+            margin-bottom: 0.4rem;
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            padding: 0.55rem 1.25rem;
+            background: none;
+            border: none;
+            border-left: 3px solid transparent;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.13s;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.05); color: #e2e8f0; }
+        .nav-btn.active { background: rgba(59,130,246,0.15); border-left-color: var(--accent); color: #fff; font-weight: 600; }
+        .nav-icon { font-size: 1rem; width: 1.25rem; text-align: center; }
+
+        .sidebar-divider { height: 1px; background: #1e3f6e; margin: 1rem 0; }
+
+        .legend { padding: 0 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #94a3b8; }
+
+        /* ── Content ── */
+        .content { flex: 1; overflow-y: auto; padding: 1.75rem 2rem; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .page-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
+        .page-subtitle { color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.375rem 1.5rem;
+            margin-bottom: 1.125rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        /* ── Case badges ── */
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .badge-nom { background: #dbeafe; color: #1e40af; }
+        .badge-akk { background: #fee2e2; color: #991b1b; }
+        .badge-dat { background: #dcfce7; color: #166534; }
+        .badge-gen { background: #f3e8ff; color: #6b21a8; }
+
+        .nom { color: var(--nom); font-weight: 600; }
+        .akk { color: var(--akk); font-weight: 600; }
+        .dat { color: var(--dat); font-weight: 600; }
+        .gen { color: var(--gen); font-weight: 600; }
+
+        /* ── Tables ── */
+        .table-wrap { overflow-x: auto; margin: 0.75rem 0; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        th {
+            background: #f8fafc;
+            padding: 0.45rem 0.75rem;
+            text-align: left;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+        td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafbfc; }
+
+        /* ── French notes ── */
+        .french-note {
+            background: #fffbeb;
+            border-left: 3px solid var(--french);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 0.75rem 0;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .fr-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 0.3rem;
+        }
+
+        /* ── Suffix tags ── */
+        .tag {
+            display: inline-block;
+            padding: 0.18rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin: 0.1rem;
+        }
+        .tag-a { background: #dbeafe; color: #1e40af; }
+        .tag-b { background: #dcfce7; color: #166534; }
+        .tag-c { background: #f3e8ff; color: #6b21a8; }
+        .tag-sp { background: #fff7ed; color: #9a3412; }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.1em 0.35em;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, Menlo, monospace;
+            font-size: 0.82em;
+            color: #0f172a;
+        }
+
+        /* ── Example rows ── */
+        .example-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: baseline;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+        }
+        .example-row:last-child { border-bottom: none; }
+        .ex-de { font-weight: 600; min-width: 160px; }
+        .ex-en { color: var(--muted); font-style: italic; }
+
+        /* ── Tips grid ── */
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+        .tip-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.125rem;
+        }
+        .tip-num {
+            width: 30px; height: 30px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.8rem;
+            margin-bottom: 0.65rem;
+        }
+        .tip-card h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .tip-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+        .hl { background: #dbeafe; color: var(--nom); padding: 0 0.2em; border-radius: 3px; font-weight: 600; }
+
+        /* ── Exercises ── */
+        .mode-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+        .mode-tab {
+            padding: 0.45rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: white;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.13s;
+            color: var(--text);
+        }
+        .mode-tab:hover { border-color: var(--accent); }
+        .mode-tab.active { border-color: var(--accent); background: var(--accent); color: white; }
+
+        .ex-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.125rem;
+        }
+        .ex-counter { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+        .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.3s; }
+        .score-badge { font-size: 0.83rem; font-weight: 700; color: var(--dat); white-space: nowrap; }
+
+        .ex-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem;
+        }
+        .ex-type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 0.625rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .ex-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.375rem;
+            line-height: 1.45;
+        }
+        .ex-question em { font-style: normal; color: var(--accent); border-bottom: 2px solid var(--accent); }
+
+        .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+        .choice {
+            padding: 0.7rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color 0.13s, background 0.13s;
+            color: var(--text);
+        }
+        .choice:hover:not(:disabled) { border-color: var(--accent); background: #eff6ff; }
+        .choice.correct { border-color: var(--dat); background: #dcfce7; color: #166534; font-weight: 700; }
+        .choice.wrong   { border-color: var(--akk); background: #fee2e2; color: #991b1b; }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.ok { background: #dcfce7; color: #166534; }
+        .feedback.ko { background: #fee2e2; color: #991b1b; }
+
+        .next-btn {
+            margin-top: 1rem;
+            padding: 0.55rem 1.375rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: none;
+        }
+        .next-btn.show { display: inline-block; }
+        .next-btn:hover { background: #1d4ed8; }
+
+        /* ── Results ── */
+        .results {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .results-emoji { font-size: 4rem; margin-bottom: 0.75rem; }
+        .results-score { font-size: 3.5rem; font-weight: 900; color: var(--accent); line-height: 1; }
+        .results-msg { color: var(--muted); margin-top: 0.5rem; font-size: 1rem; }
+        .restart-btn {
+            margin-top: 1.5rem;
+            padding: 0.7rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .restart-btn:hover { background: #1d4ed8; }
+
+        /* ── Misc ── */
+        .divider { height: 1px; background: var(--border); margin: 1rem 0; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        p { line-height: 1.65; font-size: 0.9rem; }
+        ul { padding-left: 1.5rem; }
+        li { margin: 0.3rem 0; font-size: 0.875rem; line-height: 1.65; }
+        strong { font-weight: 700; }
+
+        @media (max-width: 640px) {
+            .sidebar { display: none; }
+            .content { padding: 1rem; }
+            .choices { grid-template-columns: 1fr; }
+            .tips-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="app-header">
+    <span style="font-size:1.4rem">🇩🇪</span>
+    <h1>Deutsch Lernen</h1>
+    <span class="topic-pill">N-Deklination</span>
+</header>
+
+<div class="app-body">
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-label">Navigation</div>
+        <button class="nav-btn active" id="btn-rules"     onclick="show('rules')">
+            <span class="nav-icon">📖</span> Regeln
+        </button>
+        <button class="nav-btn" id="btn-tips"      onclick="show('tips')">
+            <span class="nav-icon">💡</span> Tipps &amp; Tricks
+        </button>
+        <button class="nav-btn" id="btn-exercises" onclick="show('exercises')">
+            <span class="nav-icon">✏️</span> Übungen
+        </button>
+
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-label">Legende</div>
+        <div class="legend">
+            <div class="legend-item"><span class="badge badge-nom">NOM</span> Nominativ</div>
+            <div class="legend-item"><span class="badge badge-akk">AKK</span> Akkusativ</div>
+            <div class="legend-item"><span class="badge badge-dat">DAT</span> Dativ</div>
+            <div class="legend-item"><span class="badge badge-gen">GEN</span> Genitiv</div>
+        </div>
+    </nav>
+
+    <main class="content">
+
+        <!-- ══════════════════════════════════════════
+             RULES
+        ══════════════════════════════════════════ -->
+        <section id="section-rules" class="section active">
+            <div class="page-title">N-Deklination</div>
+            <div class="page-subtitle">Die schwache Deklination maskuliner Substantive</div>
+
+            <!-- What is it -->
+            <div class="card">
+                <div class="card-title">📌 What is it?</div>
+                <p>The <strong>N-Deklination</strong> (weak declension) is a special rule for a group of masculine nouns. Instead of the regular genitive <code>-s/-es</code>, these nouns add <strong>-n</strong> or <strong>-en</strong> to <em>every case except nominative singular</em>.</p>
+
+                <div class="french-note mt-3">
+                    <div class="fr-label">🇫🇷 Pour les francophones</div>
+                    En français, les noms ne changent jamais de forme selon leur rôle grammatical — c'est les prépositions (<em>de, à, par</em>) qui font ce travail. En allemand, le nom lui-même change. La N-Deklination est un groupe de noms masculins qui appliquent une règle très régulière : on ajoute <strong>-en</strong> à tous les cas sauf au nominatif singulier.
+                </div>
+
+                <p class="mt-3"><strong>The core rule:</strong> identify the noun as n-declension, then add <code>-en</code> everywhere except nominative singular. One suffix, all cases.</p>
+            </div>
+
+            <!-- Declension table -->
+            <div class="card">
+                <div class="card-title">📊 Deklinationstabelle</div>
+                <p style="font-size:0.82rem; color:var(--muted)">Example: <strong>der Mensch</strong> (human being) &nbsp;·&nbsp; <strong>der Student</strong></p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Fall</th><th>Singular</th><th>Plural</th><th>Endung (sg)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge badge-nom">NOM</span></td>
+                                <td class="nom">der Mensch &nbsp;/&nbsp; der Student</td>
+                                <td class="nom">die Menschen &nbsp;/&nbsp; die Studenten</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-akk">AKK</span></td>
+                                <td class="akk">den Menschen &nbsp;/&nbsp; den Studenten</td>
+                                <td class="akk">die Menschen &nbsp;/&nbsp; die Studenten</td>
+                                <td><strong>-en</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-dat">DAT</span></td>
+                                <td class="dat">dem Menschen &nbsp;/&nbsp; dem Studenten</td>
+                                <td class="dat">den Menschen &nbsp;/&nbsp; den Studenten</td>
+                                <td><strong>-en</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge badge-gen">GEN</span></td>
+                                <td class="gen">des Menschen &nbsp;/&nbsp; des Studenten</td>
+                                <td class="gen">der Menschen &nbsp;/&nbsp; der Studenten</td>
+                                <td><strong>-en</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="mt-2" style="font-size:0.82rem; color:var(--muted)">⚠️ No <code>-s</code> in the genitive! Regular masculine: <em>des Hund<strong>es</strong></em> — n-declension: <em>des Menschen</em>.</p>
+            </div>
+
+            <!-- Which nouns -->
+            <div class="card">
+                <div class="card-title">🔍 Which nouns? (3 groups)</div>
+
+                <!-- Group A -->
+                <div>
+                    <p><strong><span class="tag tag-a">Gruppe A</span> Masculine nouns ending in <code>-e</code></strong></p>
+                    <p class="mt-2" style="font-size:0.83rem">The easiest group to spot. Nearly every masculine noun ending in <code>-e</code> is n-declension.</p>
+                    <div class="mt-2">
+                        <div class="example-row"><span class="ex-de">der Junge</span><span class="ex-en">boy</span></div>
+                        <div class="example-row"><span class="ex-de">der Löwe</span><span class="ex-en">lion</span></div>
+                        <div class="example-row"><span class="ex-de">der Kollege</span><span class="ex-en">colleague</span></div>
+                        <div class="example-row"><span class="ex-de">der Zeuge</span><span class="ex-en">witness</span></div>
+                        <div class="example-row"><span class="ex-de">der Affe</span><span class="ex-en">monkey / ape</span></div>
+                        <div class="example-row"><span class="ex-de">der Riese</span><span class="ex-en">giant</span></div>
+                        <div class="example-row"><span class="ex-de">der Neffe</span><span class="ex-en">nephew</span></div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Group B -->
+                <div>
+                    <p><strong><span class="tag tag-b">Gruppe B</span> International masculine nouns with Latin/Greek suffixes</strong></p>
+                    <p class="mt-2" style="font-size:0.83rem">If a masculine noun ends in one of these suffixes, it is n-declension. No need to memorize each noun — just the suffix.</p>
+
+                    <div class="table-wrap mt-2">
+                        <table style="font-size:0.83rem">
+                            <thead><tr><th>Suffix</th><th>Examples</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>-ent</code></td><td>Student, Präsident, Patient, Assistent</td></tr>
+                                <tr><td><code>-ist</code></td><td>Polizist, Journalist, Optimist, Terrorist</td></tr>
+                                <tr><td><code>-ant</code></td><td>Elefant, Demonstrant, Praktikant, Lieferant</td></tr>
+                                <tr><td><code>-at</code></td><td>Soldat, Kandidat, Demokrat, Bürokrat</td></tr>
+                                <tr><td><code>-oge/-loge</code></td><td>Biologe, Psychologe, Soziologe</td></tr>
+                                <tr><td><code>-and</code></td><td>Doktorand, Diplomand</td></tr>
+                                <tr><td><code>-nom</code></td><td>Astronom, Ökonom</td></tr>
+                                <tr><td><code>-soph</code></td><td>Philosoph</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="french-note mt-3">
+                        <div class="fr-label">🇫🇷 Astuce franco-allemande</div>
+                        Ces mots ressemblent à leurs équivalents français ! <em>Student → étudiant · Polizist → policier · Biologe → biologiste · Philosoph → philosophe</em>. Si le mot français se termine en <strong>-iste, -ent, -ant</strong> et que le mot allemand est masculin → c'est probablement une N-Deklination.
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Group C -->
+                <div>
+                    <p><strong><span class="tag tag-c">Gruppe C</span> Other masculines — must be memorized</strong></p>
+                    <p class="mt-2" style="font-size:0.83rem">No suffix pattern; just learn them.</p>
+                    <div class="mt-2">
+                        <div class="example-row"><span class="ex-de">der Mensch</span><span class="ex-en">human being</span></div>
+                        <div class="example-row"><span class="ex-de">der Nachbar</span><span class="ex-en">neighbour</span></div>
+                        <div class="example-row"><span class="ex-de">der Bauer</span><span class="ex-en">farmer</span></div>
+                        <div class="example-row"><span class="ex-de">der Held</span><span class="ex-en">hero</span></div>
+                        <div class="example-row"><span class="ex-de">der Fürst</span><span class="ex-en">prince</span></div>
+                        <div class="example-row"><span class="ex-de">der Graf</span><span class="ex-en">count</span></div>
+                        <div class="example-row"><span class="ex-de">der Herr</span><span class="ex-en">sir / Mr. — special case below!</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special cases -->
+            <div class="card">
+                <div class="card-title">⚠️ Sonderfälle (Special Cases)</div>
+
+                <!-- Herr -->
+                <p><strong><span class="tag tag-sp">Sonderfall 1</span> der Herr</strong></p>
+                <p class="mt-2" style="font-size:0.83rem">Uses <code>-n</code> (not <code>-en</code>) in singular, and <code>-en</code> in plural.</p>
+                <div class="table-wrap mt-2">
+                    <table style="font-size:0.83rem">
+                        <thead><tr><th>Fall</th><th>Singular</th><th>Plural</th></tr></thead>
+                        <tbody>
+                            <tr><td><span class="badge badge-nom">NOM</span></td><td class="nom">der Herr</td><td class="nom">die Herren</td></tr>
+                            <tr><td><span class="badge badge-akk">AKK</span></td><td class="akk">den Herr<strong>n</strong></td><td class="akk">die Herren</td></tr>
+                            <tr><td><span class="badge badge-dat">DAT</span></td><td class="dat">dem Herr<strong>n</strong></td><td class="dat">den Herren</td></tr>
+                            <tr><td><span class="badge badge-gen">GEN</span></td><td class="gen">des Herr<strong>n</strong></td><td class="gen">der Herren</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Mixed -->
+                <p><strong><span class="tag tag-sp">Sonderfall 2</span> Gemischte Deklination</strong></p>
+                <p class="mt-2" style="font-size:0.83rem">A handful of nouns behave like n-declension in AKK and DAT, but add <code>-ns</code> in the genitive (not <code>-en</code>). These are mostly abstract nouns.</p>
+                <div class="table-wrap mt-2">
+                    <table style="font-size:0.83rem">
+                        <thead><tr><th>NOM</th><th>AKK</th><th>DAT</th><th>GEN</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td class="nom">der Name</td>
+                                <td class="akk">den Namen</td>
+                                <td class="dat">dem Namen</td>
+                                <td class="gen">des Namen<strong>s</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="nom">der Gedanke</td>
+                                <td class="akk">den Gedanken</td>
+                                <td class="dat">dem Gedanken</td>
+                                <td class="gen">des Gedanken<strong>s</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="nom">der Glaube</td>
+                                <td class="akk">den Glauben</td>
+                                <td class="dat">dem Glauben</td>
+                                <td class="gen">des Glauben<strong>s</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="nom">der Wille</td>
+                                <td class="akk">den Willen</td>
+                                <td class="dat">dem Willen</td>
+                                <td class="gen">des Willen<strong>s</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="nom">der Friede</td>
+                                <td class="akk">den Frieden</td>
+                                <td class="dat">dem Frieden</td>
+                                <td class="gen">des Frieden<strong>s</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             TIPS
+        ══════════════════════════════════════════ -->
+        <section id="section-tips" class="section">
+            <div class="page-title">Tipps &amp; Tricks</div>
+            <div class="page-subtitle">Shortcuts to identify and use n-declension confidently</div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-num">1</div>
+                    <h3>The <code>-e</code> radar</h3>
+                    <p>If a masculine noun ends in <span class="hl">-e</span>, it is almost certainly n-declension. Scan for <code>-e</code> first — it covers a huge portion of the group: <em>Junge, Löwe, Kollege, Zeuge…</em></p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-num">2</div>
+                    <h3>Spot the Latin suffixes</h3>
+                    <p>Memorize the suffixes, not the words: <span class="hl">-ent, -ist, -ant, -at, -oge, -and</span>. Any masculine noun ending in one of these is n-declension. You get hundreds of words for the price of six patterns.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-num">3</div>
+                    <h3>"Add -en everywhere"</h3>
+                    <p>Once you know the noun is n-declension, the rule is beautifully simple: <span class="hl">add -en to every case except nominative singular</span>. No case-by-case variation — just always -en.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-num">4</div>
+                    <h3>No genitive <code>-s</code></h3>
+                    <p>Regular nouns: <em>des Hund<strong>es</strong></em>. N-declension: <em>des Menschen</em>. The missing <span class="hl">-s</span> in the genitive is an instant giveaway. Use the genitive as your quick test.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-num">5</div>
+                    <h3>Gender check first</h3>
+                    <p>N-declension is <span class="hl">masculine only</span>. Feminine and neuter nouns are never affected. Before applying the rule, confirm it's <em>der</em> — not <em>die</em> or <em>das</em>.</p>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-num">6</div>
+                    <h3>Watch the traps</h3>
+                    <p><em>der Mann, der Vater, der Bruder</em> — they refer to people but are <span class="hl">NOT</span> n-declension. Don't assume every "human noun" is weak. Only the ones in the three groups qualify.</p>
+                </div>
+            </div>
+
+            <!-- French comparison table -->
+            <div class="card mt-4">
+                <div class="card-title">🇫🇷 Comparaison français — allemand</div>
+
+                <div class="french-note">
+                    <div class="fr-label">Concept clé</div>
+                    Le français exprime les fonctions grammaticales avec des prépositions (<em>de, à</em>) ; l'allemand les exprime en changeant la forme du nom et de l'article. La N-Deklination est le groupe de noms masculins qui marquent ces fonctions avec un simple <strong>-en</strong>.
+                </div>
+
+                <div class="table-wrap mt-3">
+                    <table>
+                        <thead>
+                            <tr><th>Fonction</th><th>Français</th><th>Allemand</th><th>Cas</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sujet</td>
+                                <td>L'<strong>étudiant</strong> travaille.</td>
+                                <td class="nom">Der <strong>Student</strong> arbeitet.</td>
+                                <td><span class="badge badge-nom">NOM</span></td>
+                            </tr>
+                            <tr>
+                                <td>Objet direct</td>
+                                <td>Je vois l'<strong>étudiant</strong>.</td>
+                                <td class="akk">Ich sehe den <strong>Studenten</strong>.</td>
+                                <td><span class="badge badge-akk">AKK</span></td>
+                            </tr>
+                            <tr>
+                                <td>Objet indirect</td>
+                                <td>Je parle <strong>à l'</strong>étudiant.</td>
+                                <td class="dat">Ich spreche dem <strong>Studenten</strong>.</td>
+                                <td><span class="badge badge-dat">DAT</span></td>
+                            </tr>
+                            <tr>
+                                <td>Possession</td>
+                                <td>Le livre <strong>de l'</strong>étudiant.</td>
+                                <td class="gen">Das Buch des <strong>Studenten</strong>.</td>
+                                <td><span class="badge badge-gen">GEN</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="mt-3" style="font-size:0.83rem; color:var(--muted)">💡 Both the article (<em>der → den/dem/des</em>) AND the noun ending change in German — you get two signals for the case at the same time.</p>
+            </div>
+
+            <!-- Common mistakes -->
+            <div class="card">
+                <div class="card-title">🚫 Common Mistakes</div>
+                <ul>
+                    <li><strong>Genitive with -s:</strong> ❌ <em>des Studentes</em> → ✅ <em>des Studenten</em></li>
+                    <li><strong>Applying it to feminine nouns:</strong> <em>die Katze, die Straße</em> are feminine — completely different pattern.</li>
+                    <li><strong>Forgetting it in AKK:</strong> Accusative changes too — ❌ <em>ich sehe den Student</em> → ✅ <em>den Studenten</em>.</li>
+                    <li><strong>der Herr confusion:</strong> It takes <code>-n</code>, not <code>-en</code> in singular (den Herrn, not den Herren).</li>
+                    <li><strong>Mixed declension genitive:</strong> <em>der Name → des Namen<strong>s</strong></em>, not <em>des Namen</em>.</li>
+                    <li><strong>der Mann / der Vater:</strong> Both refer to men but are NOT n-declension — they are regular.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             EXERCISES
+        ══════════════════════════════════════════ -->
+        <section id="section-exercises" class="section">
+            <div class="page-title">Übungen</div>
+            <div class="page-subtitle">Three exercise modes — pick one to start</div>
+
+            <div class="mode-tabs">
+                <button class="mode-tab active" id="tab-recognition" onclick="setMode('recognition')">🔍 Recognition</button>
+                <button class="mode-tab" id="tab-cases"       onclick="setMode('cases')">📐 Case Forms</button>
+                <button class="mode-tab" id="tab-sentences"   onclick="setMode('sentences')">💬 Sentences</button>
+            </div>
+
+            <div id="ex-container"></div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// Navigation
+// ─────────────────────────────────────────
+function show(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('section-' + name).classList.add('active');
+    document.getElementById('btn-' + name).classList.add('active');
+    if (name === 'exercises' && state.exercises.length === 0) startMode();
+}
+
+// ─────────────────────────────────────────
+// Exercise data
+// ─────────────────────────────────────────
+const RECOGNITION = [
+    { noun:'der Student',    isN:true,  xp:'Ends in <strong>-ent</strong> (Latin suffix) → n-declension. → den Studenten, dem Studenten, des Studenten.' },
+    { noun:'der Hund',       isN:false, xp:'"der Hund" (dog) is a regular masculine noun. Genitive: des Hund<strong>es</strong>, not -en.' },
+    { noun:'der Junge',      isN:true,  xp:'Ends in <strong>-e</strong> and is masculine → n-declension. → den Jung<strong>en</strong>.' },
+    { noun:'der Tisch',      isN:false, xp:'"der Tisch" (table) is regular. Genitive: des Tisch<strong>es</strong>.' },
+    { noun:'der Elefant',    isN:true,  xp:'Ends in <strong>-ant</strong> → n-declension. → den Elefant<strong>en</strong>.' },
+    { noun:'der Vater',      isN:false, xp:'"der Vater" (father) refers to a person but is NOT n-declension — it is regular. Genitive: des Vaters.' },
+    { noun:'der Polizist',   isN:true,  xp:'Ends in <strong>-ist</strong> → n-declension. → den Polizist<strong>en</strong>.' },
+    { noun:'der Baum',       isN:false, xp:'"der Baum" (tree) is regular. Genitive: des Baum<strong>es</strong>.' },
+    { noun:'der Kollege',    isN:true,  xp:'Ends in <strong>-e</strong> and is masculine → n-declension. → den Kolleg<strong>en</strong>.' },
+    { noun:'der Name',       isN:true,  xp:'"der Name" follows the mixed n-declension: den Namen, dem Namen, but des Namen<strong>s</strong> in genitive.' },
+    { noun:'der Mann',       isN:false, xp:'"der Mann" (man) is regular despite meaning "man". Genitive: des Mann<strong>es</strong>.' },
+    { noun:'der Präsident',  isN:true,  xp:'Ends in <strong>-ent</strong> → n-declension. → den Präsident<strong>en</strong>.' },
+    { noun:'der Mensch',     isN:true,  xp:'"der Mensch" is a Gruppe C n-declension noun (must be memorized). → den Menschen.' },
+    { noun:'der Bruder',     isN:false, xp:'"der Bruder" (brother) is regular. Genitive: des Bruder<strong>s</strong>.' },
+    { noun:'der Löwe',       isN:true,  xp:'Ends in <strong>-e</strong> and is masculine → n-declension. → den Löw<strong>en</strong>.' },
+    { noun:'der Kandidat',   isN:true,  xp:'Ends in <strong>-at</strong> → n-declension. → den Kandidat<strong>en</strong>.' },
+    { noun:'der Zeuge',      isN:true,  xp:'Ends in <strong>-e</strong> and is masculine → n-declension. → den Zeug<strong>en</strong>.' },
+    { noun:'der Vogel',      isN:false, xp:'"der Vogel" (bird) is regular. Genitive: des Vogels.' },
+];
+
+const CASES = [
+    {
+        q: 'Ich sehe _____ (der Junge) auf der Straße.',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Junge', 'den Jungen', 'dem Jungen', 'des Jungen'],
+        ans: 1,
+        xp: '"sehen" takes Akkusativ. "der Junge" is n-declension → den Jung<strong>en</strong>.'
+    },
+    {
+        q: 'Das Buch gehört _____ (der Student).',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Student', 'den Studenten', 'dem Studenten', 'des Studenten'],
+        ans: 2,
+        xp: '"gehören" (to belong to) takes Dativ. → dem Student<strong>en</strong>.'
+    },
+    {
+        q: 'Das ist das Auto _____ (der Präsident).',
+        case: 'Genitiv', badge: 'gen',
+        opts: ['der Präsident', 'den Präsidenten', 'dem Präsidenten', 'des Präsidenten'],
+        ans: 3,
+        xp: 'Possession → Genitiv. No -s in n-declension genitive: des Präsident<strong>en</strong> (not des Präsidentes!).'
+    },
+    {
+        q: '_____ (der Mensch) lebt in Gesellschaft.',
+        case: 'Nominativ', badge: 'nom',
+        opts: ['Der Mensch', 'Den Menschen', 'Dem Menschen', 'Des Menschen'],
+        ans: 0,
+        xp: 'Subject of the sentence → Nominativ. N-declension nouns do NOT add -en in nominative singular.'
+    },
+    {
+        q: 'Ich helfe _____ (der Kollege) bei der Arbeit.',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Kollege', 'den Kollegen', 'dem Kollegen', 'des Kollegen'],
+        ans: 2,
+        xp: '"helfen" always takes Dativ. → dem Kolleg<strong>en</strong>.'
+    },
+    {
+        q: 'Wir kennen _____ (der Biologe) schon lange.',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Biologe', 'den Biologen', 'dem Biologen', 'des Biologen'],
+        ans: 1,
+        xp: '"kennen" takes Akkusativ. → den Biolog<strong>en</strong>.'
+    },
+    {
+        q: 'Die Meinung _____ (der Zeuge) ist wichtig.',
+        case: 'Genitiv', badge: 'gen',
+        opts: ['der Zeuge', 'den Zeugen', 'dem Zeugen', 'des Zeugen'],
+        ans: 3,
+        xp: 'Possession → Genitiv. → des Zeug<strong>en</strong>.'
+    },
+    {
+        q: 'Sie schreibt _____ (der Journalist) eine E-Mail.',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Journalist', 'den Journalisten', 'dem Journalisten', 'des Journalisten'],
+        ans: 2,
+        xp: 'Indirect object (to whom?) → Dativ. → dem Journalist<strong>en</strong>.'
+    },
+    {
+        q: '_____ (der Elefant) ist das größte Landtier.',
+        case: 'Nominativ', badge: 'nom',
+        opts: ['Der Elefant', 'Den Elefanten', 'Dem Elefanten', 'Des Elefanten'],
+        ans: 0,
+        xp: 'Subject → Nominativ. No -en added in nominative singular.'
+    },
+    {
+        q: 'Das Kind folgt _____ (der Held) überall hin.',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Held', 'den Helden', 'dem Helden', 'des Helden'],
+        ans: 2,
+        xp: '"folgen" takes Dativ. → dem Held<strong>en</strong>.'
+    },
+    {
+        q: 'Er fragt _____ (der Polizist) nach dem Weg.',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Polizist', 'den Polizisten', 'dem Polizisten', 'des Polizisten'],
+        ans: 1,
+        xp: '"fragen" takes Akkusativ. → den Polizist<strong>en</strong>.'
+    },
+    {
+        q: 'Das Haus _____ (der Nachbar) steht leer.',
+        case: 'Genitiv', badge: 'gen',
+        opts: ['der Nachbar', 'den Nachbarn', 'dem Nachbarn', 'des Nachbarn'],
+        ans: 3,
+        xp: 'Possession → Genitiv. "der Nachbar" takes -n (like Herr): des Nachbar<strong>n</strong>.'
+    },
+];
+
+const SENTENCES = [
+    {
+        q: 'Kennen Sie _____ (der Polizist)?',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Polizist', 'den Polizisten', 'dem Polizisten', 'des Polizisten'],
+        ans: 1,
+        xp: '"kennen" takes Akkusativ. The suffix -ist signals n-declension → den Polizist<strong>en</strong>.'
+    },
+    {
+        q: 'Das Fahrrad gehört _____ (der Nachbar).',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Nachbar', 'den Nachbarn', 'dem Nachbarn', 'des Nachbarn'],
+        ans: 2,
+        xp: '"gehören" takes Dativ. "der Nachbar" is n-declension with -n (not -en): dem Nachbar<strong>n</strong>.'
+    },
+    {
+        q: '_____ (der Zeuge) beschreibt den Täter.',
+        case: 'Nominativ', badge: 'nom',
+        opts: ['Der Zeuge', 'Den Zeugen', 'Dem Zeugen', 'Des Zeugen'],
+        ans: 0,
+        xp: 'Subject → Nominativ. No -en in nominative singular: der Zeuge (unchanged).'
+    },
+    {
+        q: 'Wir vertrauen _____ (der Präsident).',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Präsident', 'den Präsidenten', 'dem Präsidenten', 'des Präsidenten'],
+        ans: 2,
+        xp: '"vertrauen" (to trust) takes Dativ. → dem Präsident<strong>en</strong>.'
+    },
+    {
+        q: 'Hast du _____ (der Student) gesehen?',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Student', 'den Studenten', 'dem Studenten', 'des Studenten'],
+        ans: 1,
+        xp: '"sehen" takes Akkusativ. → den Student<strong>en</strong>.'
+    },
+    {
+        q: 'Die Aussage _____ (der Zeuge) war glaubwürdig.',
+        case: 'Genitiv', badge: 'gen',
+        opts: ['der Zeuge', 'den Zeugen', 'dem Zeugen', 'des Zeugen'],
+        ans: 3,
+        xp: 'Possession → Genitiv: des Zeug<strong>en</strong>.'
+    },
+    {
+        q: 'Er dankt _____ (der Held) für seine Hilfe.',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Held', 'den Helden', 'dem Helden', 'des Helden'],
+        ans: 2,
+        xp: '"danken" takes Dativ. → dem Held<strong>en</strong>.'
+    },
+    {
+        q: 'Ich bewundere _____ (der Löwe) im Zoo.',
+        case: 'Akkusativ', badge: 'akk',
+        opts: ['der Löwe', 'den Löwen', 'dem Löwen', 'des Löwen'],
+        ans: 1,
+        xp: '"bewundern" takes Akkusativ. Ends in -e → n-declension → den Löw<strong>en</strong>.'
+    },
+    {
+        q: 'Das Büro _____ (der Journalist) liegt im dritten Stock.',
+        case: 'Genitiv', badge: 'gen',
+        opts: ['der Journalist', 'den Journalisten', 'dem Journalisten', 'des Journalisten'],
+        ans: 3,
+        xp: 'Possession → Genitiv. -ist suffix → n-declension: des Journalist<strong>en</strong>.'
+    },
+    {
+        q: 'Die Kinder glauben _____ (der Held) alles.',
+        case: 'Dativ', badge: 'dat',
+        opts: ['der Held', 'den Helden', 'dem Helden', 'des Helden'],
+        ans: 2,
+        xp: '"glauben" takes Dativ when used with a person. → dem Held<strong>en</strong>.'
+    },
+];
+
+// ─────────────────────────────────────────
+// State
+// ─────────────────────────────────────────
+const state = {
+    mode: 'recognition',
+    exercises: [],
+    idx: 0,
+    score: 0,
+    answered: false,
+};
+
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function setMode(m) {
+    state.mode = m;
+    document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + m).classList.add('active');
+    startMode();
+}
+
+function startMode() {
+    const pool = state.mode === 'recognition' ? RECOGNITION
+               : state.mode === 'cases'       ? CASES
+               :                                SENTENCES;
+    state.exercises = shuffle(pool);
+    state.idx = 0;
+    state.score = 0;
+    state.answered = false;
+    render();
+}
+
+// ─────────────────────────────────────────
+// Rendering
+// ─────────────────────────────────────────
+function render() {
+    if (state.idx >= state.exercises.length) { renderResults(); return; }
+    const ex = state.exercises[state.idx];
+    state.mode === 'recognition' ? renderRecognition(ex) : renderChoice(ex);
+}
+
+function header() {
+    const pct = Math.round((state.idx / state.exercises.length) * 100);
+    return `
+        <div class="ex-header">
+            <span class="ex-counter">${state.idx + 1} / ${state.exercises.length}</span>
+            <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+            <span class="score-badge">${state.score} ✓</span>
+        </div>`;
+}
+
+function renderRecognition(ex) {
+    document.getElementById('ex-container').innerHTML = header() + `
+        <div class="ex-card">
+            <div class="ex-type">🔍 Recognition — N-Deklination or not?</div>
+            <div class="ex-question">Is <em>${ex.noun}</em> an n-declension noun?</div>
+            <div class="choices">
+                <button class="choice" onclick="checkRec(true)">✅ Ja — n-declension</button>
+                <button class="choice" onclick="checkRec(false)">❌ Nein — regular</button>
+            </div>
+            <div class="feedback" id="fb"></div>
+            <button class="next-btn" id="nb" onclick="next()">Weiter →</button>
+        </div>`;
+}
+
+function checkRec(userSaid) {
+    if (state.answered) return;
+    state.answered = true;
+    const ex = state.exercises[state.idx];
+    const ok = userSaid === ex.isN;
+    if (ok) state.score++;
+
+    const btns = document.querySelectorAll('.choice');
+    btns.forEach(b => b.disabled = true);
+    btns[ex.isN ? 0 : 1].classList.add('correct');
+    if (!ok) btns[userSaid ? 0 : 1].classList.add('wrong');
+
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+    fb.innerHTML = (ok ? '✅ Richtig! ' : '❌ Falsch. ') + ex.xp;
+    document.getElementById('nb').classList.add('show');
+}
+
+function renderChoice(ex) {
+    const modeLabel = state.mode === 'cases' ? '📐 Case Forms' : '💬 Sentence Completion';
+    const q = ex.q.replace('_____', '<em>_____</em>');
+    const opts = ex.opts.map((o, i) =>
+        `<button class="choice" onclick="checkChoice(${i})">${o}</button>`
+    ).join('');
+    document.getElementById('ex-container').innerHTML = header() + `
+        <div class="ex-card">
+            <div class="ex-type">${modeLabel} &nbsp; <span class="badge badge-${ex.badge}">${ex.case}</span></div>
+            <div class="ex-question">${q}</div>
+            <div class="choices">${opts}</div>
+            <div class="feedback" id="fb"></div>
+            <button class="next-btn" id="nb" onclick="next()">Weiter →</button>
+        </div>`;
+}
+
+function checkChoice(chosen) {
+    if (state.answered) return;
+    state.answered = true;
+    const ex = state.exercises[state.idx];
+    const ok = chosen === ex.ans;
+    if (ok) state.score++;
+
+    const btns = document.querySelectorAll('.choice');
+    btns.forEach(b => b.disabled = true);
+    btns[ex.ans].classList.add('correct');
+    if (!ok) btns[chosen].classList.add('wrong');
+
+    const fb = document.getElementById('fb');
+    fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+    fb.innerHTML = (ok ? '✅ Richtig! ' : '❌ Falsch. ') + ex.xp;
+    document.getElementById('nb').classList.add('show');
+}
+
+function next() {
+    state.idx++;
+    state.answered = false;
+    render();
+}
+
+function renderResults() {
+    const total = state.exercises.length;
+    const pct   = Math.round((state.score / total) * 100);
+    const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '👍' : pct >= 50 ? '📚' : '😕';
+    const msg   = pct >= 90 ? 'Ausgezeichnet! Excellent work!'
+                : pct >= 70 ? 'Gut gemacht! Good job!'
+                : pct >= 50 ? 'Nicht schlecht! Keep going!'
+                :             'Noch üben! More practice needed.';
+    document.getElementById('ex-container').innerHTML = `
+        <div class="results">
+            <div class="results-emoji">${emoji}</div>
+            <div class="results-score">${state.score}/${total}</div>
+            <div class="results-msg">${pct}% — ${msg}</div>
+            <button class="restart-btn" onclick="startMode()">Nochmal versuchen</button>
+        </div>`;
+}
+
+// Init exercises on first load of that tab (lazy)
+document.getElementById('btn-exercises').addEventListener('click', () => {
+    if (state.exercises.length === 0) startMode();
+});
+</script>
+</body>
+</html>
