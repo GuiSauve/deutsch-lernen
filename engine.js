@@ -54,13 +54,13 @@ function renderSidebar() {
 
     const subNav = `
       <button class="nav-btn sub-btn${activeSection === 'rules' ? ' active' : ''}" id="btn-rules" onclick="_showSection('rules')">
-        <span class="nav-icon">📖</span> Regeln
+        <span class="nav-icon">📖</span> Rules
       </button>
       <button class="nav-btn sub-btn${activeSection === 'tips' ? ' active' : ''}" id="btn-tips" onclick="_showSection('tips')">
-        <span class="nav-icon">💡</span> Tipps &amp; Tricks
+        <span class="nav-icon">💡</span> Tips &amp; Tricks
       </button>
       <button class="nav-btn sub-btn${activeSection === 'exercises' ? ' active' : ''}" id="btn-exercises" onclick="_showSection('exercises')">
-        <span class="nav-icon">✏️</span> Übungen
+        <span class="nav-icon">✏️</span> Exercises
       </button>`;
     return topicBtn + subNav;
   }).join('');
