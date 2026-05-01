@@ -66,7 +66,7 @@ function renderSidebar() {
   }).join('');
 
   document.getElementById('sidebar-nav').innerHTML = `
-    <div class="sidebar-label">Themen</div>
+    <div class="sidebar-label">Themes</div>
     ${topicsHTML}
     <div class="sidebar-divider"></div>
     <div class="sidebar-label">Legend</div>
