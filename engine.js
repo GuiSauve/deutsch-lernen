@@ -2,7 +2,7 @@
 // To add a topic: create topics/<id>.js, then add one entry here.
 const TOPICS = [
   { id: 'cases',            title: 'Cases overview',            status: 'done' },
-  { id: 'articles',         title: 'Articles (der/die/das)',    status: 'coming' },
+  { id: 'articles',         title: 'Articles (der/die/das)',    status: 'done' },
   { id: 'pronouns',         title: 'Personal pronouns',         status: 'coming' },
   { id: 'n-deklination',    title: 'N-Deklination',             status: 'done' },
   { id: 'prepositions',     title: 'Prepositions + cases',      status: 'coming' },
