@@ -69,7 +69,7 @@ function renderSidebar() {
     <div class="sidebar-label">Themen</div>
     ${topicsHTML}
     <div class="sidebar-divider"></div>
-    <div class="sidebar-label">Legende</div>
+    <div class="sidebar-label">Legend</div>
     <div class="legend">
       <div class="legend-item"><span class="badge badge-nom">NOM</span> Nominativ</div>
       <div class="legend-item"><span class="badge badge-akk">AKK</span> Akkusativ</div>
