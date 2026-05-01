@@ -164,7 +164,10 @@ export default {
                         <td><code>-ling</code></td><td>der Frühling, der Lehrling</td>
                     </tr>
                     <tr>
-                        <td rowspan="4"><strong class="akk">Feminine</strong></td>
+                        <td rowspan="5"><strong class="akk">Feminine</strong></td>
+                        <td><code>-e</code></td><td>die Straße, die Schule, die Blume, die Sonne, die Katze <span style="font-size:0.75rem;color:var(--muted)">⚠️ except masc. n-declension: der Junge, der Löwe</span></td>
+                    </tr>
+                    <tr>
                         <td><code>-ung</code></td><td>die Zeitung, die Meinung, die Wohnung</td>
                     </tr>
                     <tr>
