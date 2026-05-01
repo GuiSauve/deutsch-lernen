@@ -3,7 +3,7 @@
 const TOPICS = [
   { id: 'cases',            title: 'Cases overview',            status: 'done' },
   { id: 'articles',         title: 'Articles (der/die/das)',    status: 'done' },
-  { id: 'pronouns',         title: 'Personal pronouns',         status: 'coming' },
+  { id: 'pronouns',         title: 'Personal pronouns',         status: 'done' },
   { id: 'n-deklination',    title: 'N-Deklination',             status: 'done' },
   { id: 'prepositions',     title: 'Prepositions + cases',      status: 'coming' },
   { id: 'adjective-endings',title: 'Adjective endings',         status: 'coming' },
