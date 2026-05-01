@@ -96,6 +96,7 @@ function renderContent() {
         <button class="mode-tab${exState.mode === 'cases' ? ' active' : ''}" id="tab-cases" onclick="_setMode('cases')">📐 Case Forms</button>
         <button class="mode-tab${exState.mode === 'sentences' ? ' active' : ''}" id="tab-sentences" onclick="_setMode('sentences')">💬 Sentences</button>
       </div>
+      <p class="mode-hint">ℹ️ <strong>Recognition</strong> — spot the rule &nbsp;·&nbsp; <strong>Case Forms</strong> — drill the form (case is given) &nbsp;·&nbsp; <strong>Sentences</strong> — figure out both from context</p>
       <div id="ex-container"></div>
     </section>
   `;

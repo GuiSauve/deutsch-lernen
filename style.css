@@ -250,6 +250,13 @@ code {
 .mode-tab:hover { border-color: var(--accent); }
 .mode-tab.active { border-color: var(--accent); background: var(--accent); color: white; }
 
+.mode-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: -0.5rem;
+    margin-bottom: 1.25rem;
+}
+
 .ex-header {
     display: flex;
     align-items: center;
