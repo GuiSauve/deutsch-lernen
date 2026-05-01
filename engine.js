@@ -1,7 +1,7 @@
 // ── Topic registry ─────────────────────────────────────
 // To add a topic: create topics/<id>.js, then add one entry here.
 const TOPICS = [
-  { id: 'cases',            title: 'Cases overview',            status: 'coming' },
+  { id: 'cases',            title: 'Cases overview',            status: 'done' },
   { id: 'articles',         title: 'Articles (der/die/das)',    status: 'coming' },
   { id: 'pronouns',         title: 'Personal pronouns',         status: 'coming' },
   { id: 'n-deklination',    title: 'N-Deklination',             status: 'done' },
@@ -141,7 +141,8 @@ function shuffle(arr) {
 function render() {
   if (exState.idx >= exState.exercises.length) { renderResults(); return; }
   const ex = exState.exercises[exState.idx];
-  exState.mode === 'recognition' ? renderRecognition(ex) : renderChoice(ex);
+  const isYesNo = exState.mode === 'recognition' && topic.exercises.recognition.type !== 'multichoice';
+  isYesNo ? renderRecognition(ex) : renderChoice(ex);
 }
 
 function progressHeader() {
@@ -189,14 +190,20 @@ function checkRec(userSaid) {
 }
 
 function renderChoice(ex) {
-  const modeLabel = exState.mode === 'cases' ? '📐 Case Forms' : '💬 Sentence Completion';
+  let typeLabel;
+  if (exState.mode === 'recognition') {
+    typeLabel = `🔍 ${topic.exercises.recognition.label}`;
+  } else {
+    const icon = exState.mode === 'cases' ? '📐 Case Forms' : '💬 Sentence Completion';
+    typeLabel = `${icon} &nbsp; <span class="badge badge-${ex.badge}">${ex.case}</span>`;
+  }
   const q = ex.q.replace('_____', '<em>_____</em>');
   const opts = ex.opts.map((o, i) =>
     `<button class="choice" onclick="_checkChoice(${i})">${o}</button>`
   ).join('');
   document.getElementById('ex-container').innerHTML = progressHeader() + `
     <div class="ex-card">
-      <div class="ex-type">${modeLabel} &nbsp; <span class="badge badge-${ex.badge}">${ex.case}</span></div>
+      <div class="ex-type">${typeLabel}</div>
       <div class="ex-question">${q}</div>
       <div class="choices">${opts}</div>
       <div class="feedback" id="fb"></div>
