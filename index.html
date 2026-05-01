@@ -19,6 +19,32 @@
     <main class="content" id="main-content"></main>
 </div>
 
+<!-- Mobile bottom nav -->
+<nav class="mobile-nav" id="mobile-nav">
+    <button class="mob-btn" id="mob-btn-rules"     onclick="_showSection('rules')">
+        <span class="mob-icon">📖</span><span class="mob-label">Regeln</span>
+    </button>
+    <button class="mob-btn" id="mob-btn-tips"      onclick="_showSection('tips')">
+        <span class="mob-icon">💡</span><span class="mob-label">Tipps</span>
+    </button>
+    <button class="mob-btn" id="mob-btn-exercises" onclick="_showSection('exercises')">
+        <span class="mob-icon">✏️</span><span class="mob-label">Übungen</span>
+    </button>
+    <button class="mob-btn" id="mob-btn-topics"    onclick="_toggleTopicSheet()">
+        <span class="mob-icon">📚</span><span class="mob-label">Themen</span>
+    </button>
+</nav>
+
+<!-- Topic sheet (mobile) -->
+<div class="topic-sheet" id="topic-sheet">
+    <div class="topic-sheet-overlay" onclick="_closeTopicSheet()"></div>
+    <div class="topic-sheet-panel">
+        <div class="topic-sheet-handle"></div>
+        <div class="sidebar-label" style="padding:0 1.25rem;margin-bottom:0.75rem">Themen</div>
+        <div id="topic-sheet-list"></div>
+    </div>
+</div>
+
 <script type="module" src="engine.js"></script>
 </body>
 </html>

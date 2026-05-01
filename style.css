@@ -370,9 +370,74 @@ ul { padding-left: 1.5rem; }
 li { margin: 0.3rem 0; font-size: 0.875rem; line-height: 1.65; }
 strong { font-weight: 700; }
 
+/* ── Mobile bottom nav ── */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--navy);
+    border-top: 2px solid var(--accent);
+    padding: 0.35rem 0 calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    z-index: 100;
+    justify-content: space-around;
+}
+.mob-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    background: none;
+    border: none;
+    color: #475569;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.9rem;
+    cursor: pointer;
+    transition: color 0.13s;
+}
+.mob-btn.active { color: #fff; }
+.mob-icon { font-size: 1.35rem; line-height: 1; }
+
+/* ── Topic sheet ── */
+.topic-sheet { display: none; position: fixed; inset: 0; z-index: 200; }
+.topic-sheet.open { display: block; }
+.topic-sheet-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
+.topic-sheet-panel {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--navy);
+    border-radius: 18px 18px 0 0;
+    padding: 0.6rem 0 calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    max-height: 75vh;
+    overflow-y: auto;
+}
+.topic-sheet-handle {
+    width: 36px; height: 4px;
+    background: #334155;
+    border-radius: 999px;
+    margin: 0 auto 1rem;
+}
+
 @media (max-width: 640px) {
     .sidebar { display: none; }
-    .content { padding: 1rem; }
+    .mobile-nav { display: flex; }
+    .content {
+        padding: 1rem;
+        padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
     .choices { grid-template-columns: 1fr; }
     .tips-grid { grid-template-columns: 1fr; }
+    .ex-card { padding: 1.25rem; }
+    .ex-question { font-size: 1.05rem; margin-bottom: 1rem; }
+    .mode-tabs { gap: 0.4rem; }
+    .mode-tab { padding: 0.4rem 0.75rem; font-size: 0.78rem; }
+    .results { padding: 2rem 1.25rem; }
+    .app-header h1 { font-size: 1rem; }
+    .topic-pill { font-size: 0.72rem; padding: 0.2rem 0.55rem; }
 }

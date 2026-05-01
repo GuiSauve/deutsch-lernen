@@ -36,6 +36,7 @@ async function loadTopic(id) {
   document.getElementById('topic-pill').textContent = topic.title;
   renderSidebar();
   renderContent();
+  updateMobileNav();
 }
 
 // ── Sidebar ────────────────────────────────────────────
@@ -108,8 +109,39 @@ function showSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('section-' + name).classList.add('active');
-  document.getElementById('btn-' + name).classList.add('active');
+  document.getElementById('btn-' + name)?.classList.add('active');
+  updateMobileNav();
   if (name === 'exercises' && exState.exercises.length === 0) startMode();
+}
+
+// ── Mobile nav ─────────────────────────────────────────
+
+function updateMobileNav() {
+  document.querySelectorAll('.mob-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('mob-btn-' + activeSection)?.classList.add('active');
+}
+
+function toggleTopicSheet() {
+  const sheet = document.getElementById('topic-sheet');
+  sheet.classList.contains('open') ? closeTopicSheet() : openTopicSheet();
+}
+
+function openTopicSheet() {
+  document.getElementById('topic-sheet-list').innerHTML = TOPICS.map(t => {
+    const isActive = topic && topic.id === t.id;
+    const isDone = t.status === 'done';
+    const cls = ['nav-btn', isActive ? 'active' : '', isDone ? '' : 'coming'].filter(Boolean).join(' ');
+    const icon = isDone ? '✅' : '🔒';
+    const attrs = isDone ? `onclick="_loadTopic('${t.id}'); _closeTopicSheet()"` : 'disabled';
+    return `<button class="${cls}" ${attrs}><span class="nav-icon">${icon}</span> ${t.title}</button>`;
+  }).join('');
+  document.getElementById('topic-sheet').classList.add('open');
+  document.getElementById('mob-btn-topics').classList.add('active');
+}
+
+function closeTopicSheet() {
+  document.getElementById('topic-sheet').classList.remove('open');
+  document.getElementById('mob-btn-topics').classList.remove('active');
 }
 
 // ── Exercises ──────────────────────────────────────────
@@ -254,13 +286,15 @@ function renderResults() {
 }
 
 // ── Expose to inline onclick handlers ─────────────────
-window._loadTopic  = loadTopic;
-window._showSection = showSection;
-window._setMode    = setMode;
-window._startMode  = startMode;
-window._checkRec   = checkRec;
-window._checkChoice = checkChoice;
-window._next       = next;
+window._loadTopic       = loadTopic;
+window._showSection     = showSection;
+window._setMode         = setMode;
+window._startMode       = startMode;
+window._checkRec        = checkRec;
+window._checkChoice     = checkChoice;
+window._next            = next;
+window._toggleTopicSheet = toggleTopicSheet;
+window._closeTopicSheet  = closeTopicSheet;
 
 // ── Init ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
