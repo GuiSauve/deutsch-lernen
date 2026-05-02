@@ -424,6 +424,57 @@ strong { font-weight: 700; }
     margin: 0 auto 1rem;
 }
 
+/* ── Welcome overlay ── */
+.welcome-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    background: rgba(10, 20, 40, 0.82);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+.welcome-overlay.show { display: flex; }
+.welcome-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    max-width: 480px;
+    width: calc(100% - 2rem);
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.welcome-flag { font-size: 2.75rem; line-height: 1; display: block; margin-bottom: 0.9rem; }
+.welcome-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    margin-bottom: 1rem;
+}
+.welcome-tagline {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+.welcome-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.13s;
+}
+.welcome-btn:hover { background: #1d4ed8; }
+
 @media (max-width: 640px) {
     .sidebar { display: none; }
     .mobile-nav { display: flex; }

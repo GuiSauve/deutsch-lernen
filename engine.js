@@ -296,8 +296,32 @@ window._next            = next;
 window._toggleTopicSheet = toggleTopicSheet;
 window._closeTopicSheet  = closeTopicSheet;
 
+// ── Welcome overlay ───────────────────────────────────
+
+function showWelcome() {
+  document.getElementById('welcome-overlay').classList.add('show');
+  document.addEventListener('keydown', onWelcomeKey);
+}
+
+function dismissWelcome() {
+  document.getElementById('welcome-overlay').classList.remove('show');
+  document.removeEventListener('keydown', onWelcomeKey);
+  sessionStorage.setItem('welcomed', '1');
+  loadTopic('cases');
+}
+
+function onWelcomeKey(e) {
+  if (e.key === 'Enter') dismissWelcome();
+}
+
 // ── Init ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   renderSidebar();
-  loadTopic('n-deklination');
+  if (sessionStorage.getItem('welcomed')) {
+    loadTopic('cases');
+  } else {
+    showWelcome();
+  }
 });
+
+window._dismissWelcome = dismissWelcome;
