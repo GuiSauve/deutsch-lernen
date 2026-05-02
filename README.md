@@ -22,10 +22,10 @@ There are also **French comparison notes** throughout. French speakers have a sp
 
 | # | Topic | Status |
 |---|-------|--------|
-| 1 | N-Deklination | ✅ Done |
-| 2 | Cases overview (NOM / AKK / DAT / GEN) | ✅ Done |
-| 3 | Articles (der/die/das across all cases) | ✅ Done |
-| 4 | Personal pronouns | ✅ Done |
+| 1 | Cases overview (NOM / AKK / DAT / GEN) | ✅ Done |
+| 2 | Articles (der/die/das across all cases) | ✅ Done |
+| 3 | Personal pronouns | ✅ Done |
+| 4 | N-Deklination | ✅ Done |
 | 5 | Prepositions + cases | Coming |
 | 6 | Adjective endings | Coming |
 | 7 | Modal verbs | Coming |
