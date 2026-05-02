@@ -1,4 +1,4 @@
-# Deutsch Lernen
+# Deutsch lernen
 
 A German grammar learning app built for people who actually want to understand the language — not just memorize tables.
 
