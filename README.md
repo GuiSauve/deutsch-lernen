@@ -23,10 +23,10 @@ There are also **French comparison notes** throughout. French speakers have a sp
 | # | Topic | Status |
 |---|-------|--------|
 | 1 | N-Deklination | ✅ Done |
-| 2 | Cases overview | Coming |
-| 3 | Articles (der/die/das across all cases) | Coming |
-| 4 | Prepositions + cases | Coming |
-| 5 | Personal pronouns | Coming |
+| 2 | Cases overview (NOM / AKK / DAT / GEN) | ✅ Done |
+| 3 | Articles (der/die/das across all cases) | ✅ Done |
+| 4 | Personal pronouns | ✅ Done |
+| 5 | Prepositions + cases | Coming |
 | 6 | Adjective endings | Coming |
 | 7 | Modal verbs | Coming |
 | 8 | Word order | Coming |
@@ -38,9 +38,9 @@ There are also **French comparison notes** throughout. French speakers have a sp
 
 Every topic follows the same three-tab structure:
 
-- **Regeln** — the rule, explained plainly, with French comparison notes where relevant
-- **Tipps & Tricks** — mnemonics and shortcuts to recognize and apply the pattern faster
-- **Übungen** — three exercise modes (Recognition, Case Forms, Sentences), randomized, with detailed feedback on every answer
+- **Rules** — the rule, explained plainly, with French comparison notes where relevant
+- **Tips & Tricks** — mnemonics and shortcuts to recognize and apply the pattern faster
+- **Exercises** — three exercise modes (Recognition, Case Forms, Sentences), randomized, with detailed feedback on every answer
 
 ---
 
